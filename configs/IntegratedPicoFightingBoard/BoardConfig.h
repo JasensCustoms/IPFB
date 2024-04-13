@@ -148,7 +148,7 @@
 // This is the I2C Display section (commonly known as the OLED display section).
 
 #define HAS_I2C_DISPLAY 1
-#define I2C0_ENABLED
+#define I2C0_ENABLED 1
 #define I2C0_PIN_SDA 26
 #define I2C0_PIN_SCL 27
 #define DISPLAY_I2C_BLOCK i2c0
