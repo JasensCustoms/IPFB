@@ -4,7 +4,7 @@
 
 Turbo on pin 28, with LED on 23. RGB LED Data set to pin 15.
 
-![Pin Mapping](assets/IPFB-Final.webp)
+![Pin Mapping](assets/ipfb-v2.webp)
 
 Closed source board based on FeralAI's innovative Pico Fighting Board. Designed to have the same level of polish as any purchasable board, and to be intercompatible with existing Brook offerings.
  
