@@ -145,28 +145,13 @@
 #define PLED3_PIN 18
 #define PLED4_PIN 19
 
-
-// This is the Analog section.
-// In this section you can specify if Analog is enabled, and, if endabled, which pins will be used for it.
-// The default for `ANALOG_ADC_VRX` and `ANALOG_ADC_VRY` is `-1` which disables them.
-// To enable a `ANALOG_ADC_VRX` and `ANALOG_ADC_VRY`, replace the `-1` with the GPIO pin numbers that are desired. 
-
-#define ANALOG_ADC_1_VRX -1
-#define ANALOG_ADC_1_VRY -1
-#define ANALOG_ADC_1_MODE DPAD_MODE_LEFT_ANALOG
-#define ANALOG_ADC_1_INVERT INVERT_NONE
-
-#define ANALOG_ADC_2_VRX -1
-#define ANALOG_ADC_2_VRY -1
-#define ANALOG_ADC_2_MODE DPAD_MODE_RIGHT_ANALOG
-#define ANALOG_ADC_2_INVERT INVERT_NONE
-
 // This is the I2C Display section (commonly known as the OLED display section).
 
 #define HAS_I2C_DISPLAY 1
 #define I2C0_ENABLED
 #define I2C0_PIN_SDA 26
 #define I2C0_PIN_SCL 27
+#define DISPLAY_I2C_BLOCK i2c0
 
 // Reverse Button section
 #define REVERSE_LED_PIN -1
@@ -174,6 +159,7 @@
 #define REVERSE_DOWN_DEFAULT 1
 #define REVERSE_LEFT_DEFAULT 1
 #define REVERSE_RIGHT_DEFAULT 1
+
 
 #define BUTTON_LAYOUT BUTTON_LAYOUT_STICKLESS
 #define BUTTON_LAYOUT_RIGHT BUTTON_LAYOUT_STICKLESSB
