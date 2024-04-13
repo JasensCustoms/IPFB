@@ -11,19 +11,6 @@
 
 #define BOARD_CONFIG_LABEL "Integrated Pico Fighting Board"
 
-/*
- * SPDX-License-Identifier: MIT
- * SPDX-FileCopyrightText: Copyright (c) 2024 OpenStickCommunity (gp2040-ce.info)
- */
-
-#ifndef PICO_BOARD_CONFIG_H_
-#define PICO_BOARD_CONFIG_H_
-
-#include "enums.pb.h"
-#include "class/hid/hid.h"
-
-#define BOARD_CONFIG_LABEL "Pico Fighting Board"
-
 // Main pin mapping Configuration
 //                                                  // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
 #define GPIO_PIN_01 GpioAction::BUTTON_PRESS_UP     // UP     | UP     | UP      | UP       | UP     | UP     |
