@@ -3,12 +3,10 @@
  * SPDX-FileCopyrightText: Copyright (c) 2021 Jason Skuby (mytechtoybox.com)
  */
 
-#ifndef IPFB_CONFIG_H_
-#define IPFB_CONFIG_H_
+#ifndef PICO_BOARD_CONFIG_H_
+#define PICO_BOARD_CONFIG_H_
 
 #include "enums.pb.h"
-
-#define BOARD_CONFIG_LABEL "IPFB"
 
 // This is the main pin definition section.
 // This will let you specify which GPIO pin each button is assigned too.
@@ -17,7 +15,6 @@
 // Please note that only when `PIN_BUTTON_TURBO` is set to `-1` will the `T##` be removed from a connected display.
 // Please note that only when `PIN_SLIDER_ONE` and  `PIN_SLIDER_TWO` are set to `-1` will the button combo shortcut for DP/LS/RS work.
 // The buttons are listed in GP2040 configuration, beside each the listed order is *GP2040 / Xinput / Switch / PS3 / Directinput / Arcade*
-<<<<<<< HEAD
 
 #define PIN_DPAD_UP     1           // UP
 #define PIN_DPAD_DOWN   2           // DOWN
@@ -100,59 +97,6 @@
 // Unless you are planning on running custom animations I would recommmend you leave this as is.
 #define TURBO_ENABLED 1
 #define PIN_BUTTON_TURBO 28
-=======
-// Main pin mapping Configuration
-//                          // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
-#define PIN_DPAD_UP     1   // UP     | UP     | UP      | UP       | UP     | UP     |
-#define PIN_DPAD_DOWN   2   // DOWN   | DOWN   | DOWN    | DOWN     | DOWN   | DOWN   | 
-#define PIN_DPAD_RIGHT  3   // RIGHT  | RIGHT  | RIGHT   | RIGHT    | RIGHT  | RIGHT  | 
-#define PIN_DPAD_LEFT   0   // LEFT   | LEFT   | LEFT    | LEFT     | LEFT   | LEFT   | 
-#define PIN_BUTTON_B1   11  // B1     | A      | B       | Cross    | 2      | K1     |
-#define PIN_BUTTON_B2   12  // B2     | B      | A       | Circle   | 3      | K2     |
-#define PIN_BUTTON_R2   13  // R2     | RT     | ZR      | R2       | 8      | K3     |
-#define PIN_BUTTON_L2   14  // L2     | LT     | ZL      | L2       | 7      | K4     |
-#define PIN_BUTTON_B3   7   // B3     | X      | Y       | Square   | 1      | P1     |
-#define PIN_BUTTON_B4   8   // B4     | Y      | X       | Triangle | 4      | P2     |
-#define PIN_BUTTON_R1   9   // R1     | RB     | R       | R1       | 6      | P3     |
-#define PIN_BUTTON_L1   10  // L1     | LB     | L       | L1       | 5      | P4     |
-#define PIN_BUTTON_S1   5   // S1     | Back   | Minus   | Select   | 9      | Coin   |
-#define PIN_BUTTON_S2   6   // S2     | Start  | Plus    | Start    | 10     | Start  |
-#define PIN_BUTTON_L3   21  // L3     | LS     | LS      | L3       | 11     | LS     |
-#define PIN_BUTTON_R3   22  // R3     | RS     | RS      | R3       | 12     | RS     |
-#define PIN_BUTTON_A1   4   // A1     | Guide  | Home    | PS       | 13     | ~      |
-#define PIN_BUTTON_A2   20  // A2     | ~      | Capture | ~        | 14     | ~      |
-#define PIN_BUTTON_FN   -1  // Hotkey Function                                        |
-#define PIN_BUTTON_TURBO 28 // Turbo
-
-// Keyboard Mapping Configuration
-//                                            // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
-#define KEY_DPAD_UP     HID_KEY_ARROW_UP      // UP     | UP     | UP      | UP       | UP     | UP     |
-#define KEY_DPAD_DOWN   HID_KEY_ARROW_DOWN    // DOWN   | DOWN   | DOWN    | DOWN     | DOWN   | DOWN   | 
-#define KEY_DPAD_RIGHT  HID_KEY_ARROW_RIGHT   // RIGHT  | RIGHT  | RIGHT   | RIGHT    | RIGHT  | RIGHT  | 
-#define KEY_DPAD_LEFT   HID_KEY_ARROW_LEFT    // LEFT   | LEFT   | LEFT    | LEFT     | LEFT   | LEFT   | 
-#define KEY_BUTTON_B1   HID_KEY_SHIFT_LEFT    // B1     | A      | B       | Cross    | 2      | K1     |
-#define KEY_BUTTON_B2   HID_KEY_Z             // B2     | B      | A       | Circle   | 3      | K2     |
-#define KEY_BUTTON_R2   HID_KEY_X             // R2     | RT     | ZR      | R2       | 8      | K3     |
-#define KEY_BUTTON_L2   HID_KEY_V             // L2     | LT     | ZL      | L2       | 7      | K4     |
-#define KEY_BUTTON_B3   HID_KEY_CONTROL_LEFT  // B3     | X      | Y       | Square   | 1      | P1     |
-#define KEY_BUTTON_B4   HID_KEY_ALT_LEFT      // B4     | Y      | X       | Triangle | 4      | P2     |
-#define KEY_BUTTON_R1   HID_KEY_SPACE         // R1     | RB     | R       | R1       | 6      | P3     |
-#define KEY_BUTTON_L1   HID_KEY_C             // L1     | LB     | L       | L1       | 5      | P4     |
-#define KEY_BUTTON_S1   HID_KEY_5             // S1     | Back   | Minus   | Select   | 9      | Coin   |
-#define KEY_BUTTON_S2   HID_KEY_1             // S2     | Start  | Plus    | Start    | 10     | Start  |
-#define KEY_BUTTON_L3   HID_KEY_EQUAL         // L3     | LS     | LS      | L3       | 11     | LS     |
-#define KEY_BUTTON_R3   HID_KEY_MINUS         // R3     | RS     | RS      | R3       | 12     | RS     |
-#define KEY_BUTTON_A1   HID_KEY_9             // A1     | Guide  | Home    | PS       | 13     | ~      |
-#define KEY_BUTTON_A2   HID_KEY_F2            // A2     | ~      | Capture | ~        | 14     | ~      |
-#define KEY_BUTTON_FN   -1                    // Hotkey Function                                        |
-
-// Set up for defaulting passthrough to on.
-#define DEFAULT_PS4CONTROLLER_TYPE PS4_ARCADESTICK
-#define PSPASSTHROUGH_ENABLED 1
-#define XBONEPASSTHROUGH_ENABLED 1
-
-#define TURBO_ENABLED 1
->>>>>>> OpenStickCommunity-main
 #define TURBO_LED_PIN 23
 
 #define BOARD_LEDS_PIN 15
@@ -181,7 +125,6 @@
 #define LEDS_BUTTON_A1   -1
 #define LEDS_BUTTON_A2   -1
 
-<<<<<<< HEAD
 
 // This is the Player LED section.
 // In this section you can specify if Player LEDs will be active, and, if active, which pins will be used for them.
@@ -193,15 +136,12 @@
 // 2 - `PLED_TYPE_PWM` - This will enable the Player LEDs ( it is recommended to run through 3V3(OUT) with a resistor)
 // 3 - `PLED_TYPE_RGB` - This will enable the Player LEDs as addressible RGB LEDs (please not that this has not been implemented yet)
 
-=======
->>>>>>> OpenStickCommunity-main
 #define PLED_TYPE PLED_TYPE_PWM
 #define PLED1_PIN 16
 #define PLED2_PIN 17
 #define PLED3_PIN 18
 #define PLED4_PIN 19
 
-<<<<<<< HEAD
 
 // This is the Analog section.
 // In this section you can specify if Analog is enabled, and, if endabled, which pins will be used for it.
@@ -263,8 +203,6 @@
 // 4 - `NOSPLASH` - This will not display a splash screen on boot
 // Special note - All of the splash screen images can be changed via `include/bitmaps.h`
 
-=======
->>>>>>> OpenStickCommunity-main
 #define HAS_I2C_DISPLAY 1
 #define I2C_SDA_PIN 26
 #define I2C_SCL_PIN 27
@@ -273,7 +211,6 @@
 #define DISPLAY_FLIP 0
 #define DISPLAY_INVERT 0
 
-<<<<<<< HEAD
 // I2C Analog ADS1219 Add-on Options
 #define I2C_ANALOG1219_SDA_PIN -1
 #define I2C_ANALOG1219_SCL_PIN -1
@@ -288,13 +225,10 @@
 #define REVERSE_LEFT_DEFAULT 1
 #define REVERSE_RIGHT_DEFAULT 1
 
-=======
->>>>>>> OpenStickCommunity-main
 #define BUTTON_LAYOUT BUTTON_LAYOUT_STICKLESS
 #define BUTTON_LAYOUT_RIGHT BUTTON_LAYOUT_STICKLESSB
 #define SPLASH_MODE SPLASH_MODE_NONE
 #define SPLASH_CHOICE SPLASH_CHOICE_MAIN
-<<<<<<< HEAD
 #define SPLASH_DURATION 7500 // Duration in milliseconds
 
 // Board LED Add-on Setting
@@ -366,7 +300,4 @@
 #define KEY_BUTTON_A1   HID_KEY_9             // A1 / Guide / Home / PS / 13 / ~
 #define KEY_BUTTON_A2   HID_KEY_F2            // A2 / ~ / Capture / ~ / 14 / ~
 
-=======
-#define SPLASH_DURATION 7500
->>>>>>> OpenStickCommunity-main
 #endif
