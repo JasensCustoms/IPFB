@@ -55,8 +55,7 @@ jobs:
 
     - name: Fix cmake.yml
       run: |
-        sed -Ei 's/GP2040_BOARDCONFIG: .*$/GP2040_BOARDCONFIG: [IntegratedPicoFightingBoard:wq
-        ]/' .github/workflows/cmake.yml && \
+        sed -Ei 's/GP2040_BOARDCONFIG: .*$/GP2040_BOARDCONFIG: [IntegratedPicoFightingBoard]/' .github/workflows/cmake.yml && \
         sed -Ei 's/^(\s+- name: Setup SDK pipeline)$/    - name: Checkout IPFB\n      uses: actions\/checkout@v4.1.1\n      with:\n        path: configs\/IntegratedPicoFightingBoard\/\n\n\1/' .github/workflows/cmake.yml
     - name: Build GPCE
       uses: ./github/workflows/cmake.yml
