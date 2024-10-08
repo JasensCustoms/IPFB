@@ -65,6 +65,8 @@ jobs:
       with:
         path: configs/${{ env.GP2040_BOARDCONFIG }}/
 
+    - run: ls configs/${{ env.GP2040_BOARDCONFIG }}/
+    
     - name: Setup SDK pipeline
       uses: Fortinbra/RaspberryPiPicoBuild@v3
 
