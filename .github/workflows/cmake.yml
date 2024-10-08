@@ -63,8 +63,8 @@ jobs:
     - name: Checkout IPFB
       uses: actions/checkout@v4.1.1
       with:
-        path: configs/${{ env.GP2040_BOARDCONFIG }}/
-        filter: config/
+        path: configs/
+        sparse-checkout: ${{ env.GP2040_BOARDCONFIG }}
 
     - run: ls configs/${{ env.GP2040_BOARDCONFIG }}/
     
