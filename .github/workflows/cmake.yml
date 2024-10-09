@@ -14,11 +14,11 @@ env:
   GP2040_REPO: OpenStickCommunity/GP2040-CE
 
 jobs:
-  get-release-version:
+  get-tags:
     runs-on: ubuntu-latest
     outputs:
-      next_version: ${{ steps.get_next_version.outputs.next_version }}
-      GP2040_CE_TAG: ${{ steps.get_next_version.outputs.GP2040_CE_TAG }}
+      next_tag: ${{ steps.tags.outputs.next_tag }}
+      gp2040_ce_tag: ${{ steps.tags.outputs.gp2040_ce_tag }}
     steps:
     - if: ${{ github.ref == 'refs/heads/main' }}
       run: |  
@@ -60,13 +60,13 @@ jobs:
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
 
-    - name: get_next_version
+    - id: tags
       run: |
-        echo 'GP2040_CE_TAG='${{ env.GP2040_CE_TAG }} >> $GITHUB_OUTPUT
+        echo 'gp2040_ce_tag='${{ env.GP2040_CE_TAG }} >> "$GITHUB_OUTPUT"
         if [ ${{ env.GP2040_CE_TAG }} != $LAST_TAG ]; then
-          echo 'NEXT_TAG='${{ env.GP2040_CE_TAG}} >> $GITHUB_OUTPUT
+          echo 'next_tag='${{ env.GP2040_CE_TAG}} >> "$GITHUB_OUTPUT"
         else
-          echo 'NEXT_TAG=' >> $GITHUB_OUTPUT
+          echo 'next_tag=' >> $GITHUB_OUTPUT
         fi
 
   build-web-interface:
@@ -75,13 +75,13 @@ jobs:
   build-firmware:
     needs:
       - build-web-interface
-      - get-release-version
+      - get-tags
     # The CMake configure and build commands are platform-agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
     env:
-      GP2040_CE_TAG: ${{needs.get-release-version.outputs.GP2040_CE_TAG}}
+      GP2040_CE_TAG: ${{needs.get-tags.outputs.gp2040_ce_tag}}
 
     steps:
     #Global Setup
@@ -133,30 +133,20 @@ jobs:
     permissions:
       contents: write
     needs:
-      - get-release-version
+      - get-tags
       - build-firmware
-    if: ${{ github.ref == 'refs/heads/main' }}
+    env:
+      RELEASE_VERSION: ${{needs.get-tags.outputs.next_tag}}
+    if: ${{ github.ref == 'refs/heads/main' && env.RELEASE_VERSION != '' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Get Release Version
-        uses: actions/download-artifact@v4.1.2
-        with:
-          name: Release Version
-          path: ${{github.workspace}}/
-
-      - env:
-          RELEASE_VERSION: ${{needs.get-release-version.outputs.next_version}}
-        run: echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
-
       - name: Download Build Artifacts
-        if: ${{ env.RELEASE_VERSION != '' }}
         uses: actions/download-artifact@v4.1.2
         with:
           name: GP2040-CE - ${{ env.GP2040_BOARDCONFIG }}
           path: ${{github.workspace}}/
 
       - name: Create Release
-        if: ${{ env.RELEASE_VERSION != '' }}
         run: gh release create --repo '${{ github.repository }}' --notes "This is an automated release. See the GP2040-CE patch notes for ${{ env.RELEASE_VERSION }} [here](https://github.com/${{ env.GP2040_REPO }}/releases/tag/${{ env.RELEASE_VERSION }})." ${{ env.RELEASE_VERSION }} ./*.uf2
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
