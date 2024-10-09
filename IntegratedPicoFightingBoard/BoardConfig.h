@@ -74,70 +74,17 @@
 #define DEFAULT_INPUT_MODE_B4 INPUT_MODE_PS5
 #define DEFAULT_PS5AUTHENTICATION_TYPE INPUT_MODE_AUTH_TYPE_USB
 
-#define PSPASSTHROUGH_ENABLED 1
-
-#define XBONEPASSTHROUGH_ENABLED 1
-
-
-// This is the SOCD section.
-// SOCD stands for `simultaneous opposing cardinal directions`.
-// There are three options for `DEFAULT_SOCD_MODE` currently:
-// 1 - `SOCD_MODE_NEUTRAL` - This is a neutral SOCD.  EG. when you press `up` + `down` no input will be registered.
-// 2 - `SOCD_MODE_UP_PRIORITY` - This is up priority SOCD.  EG. when you press `up` + `down` `up` will be registered.
-// 3 - `SOCD_MODE_SECOND_INPUT_PRIORITY` - This is last priority SOCD.  EG. when you press and hold `up` then press `down` `down` will be registered.
-// 4 - `SOCD_MODE_FIRST_INPUT_PRIORITY` - This is first priority SOCD.  EG. when you press and hold `up` then press `down` `up` will be registered.
-
-#define DEFAULT_SOCD_MODE SOCD_MODE_NEUTRAL
-// SOCD Slider Slot Defaults
-#define SLIDER_SOCD_SLOT_ONE SOCD_MODE_UP_PRIORITY
-#define SLIDER_SOCD_SLOT_TWO  SOCD_MODE_SECOND_INPUT_PRIORITY
-#define SLIDER_SOCD_SLOT_DEFAULT SOCD_MODE_NEUTRAL
-
-#define DEFAULT_FORCED_SETUP_MODE FORCED_SETUP_MODE_OFF // 	FORCED_SETUP_MODE_OFF, FORCED_SETUP_MODE_LOCK_MODE_SWITCH, FORCED_SETUP_MODE_LOCK_WEB_CONFIG, FORCED_SETUP_MODE_LOCK_BOTH
-#define DEFAULT_LOCK_HOTKEYS false // or true
-
 
 // This is the LEDs section.
 #define TURBO_ENABLED 1
-#define PIN_BUTTON_TURBO 28
+#define GPIO_PIN_28 GpioAction::BUTTON_PRESS_TURBO
 #define TURBO_LED_PIN 23
 
 #define BOARD_LEDS_PIN 15
 
 #define LED_BRIGHTNESS_MAXIMUM 150
 #define LED_BRIGHTNESS_STEPS 5
-#define LED_FORMAT LED_FORMAT_GRB
-#define LEDS_PER_PIXEL 2
 
-#define LEDS_DPAD_LEFT   11
-#define LEDS_DPAD_DOWN   10
-#define LEDS_DPAD_RIGHT  9
-#define LEDS_DPAD_UP     0
-#define LEDS_BUTTON_B3   8
-#define LEDS_BUTTON_B4   7
-#define LEDS_BUTTON_R1   6
-#define LEDS_BUTTON_L1   5
-#define LEDS_BUTTON_B1   1
-#define LEDS_BUTTON_B2   2
-#define LEDS_BUTTON_R2   3
-#define LEDS_BUTTON_L2   4
-#define LEDS_BUTTON_S1   -1
-#define LEDS_BUTTON_S2   -1
-#define LEDS_BUTTON_L3   -1
-#define LEDS_BUTTON_R3   -1
-#define LEDS_BUTTON_A1   -1
-#define LEDS_BUTTON_A2   -1
-
-
-// This is the Player LED section.
-// In this section you can specify if Player LEDs will be active, and, if active, which pins will be used for them.
-// The defualt is `PLED_TYPE_NONE` which will turn the Player LEDs off.
-// The default pin for each Player LED is `-1` which disables it.
-// To enable a `PLED#_PIN`, replace the `-1` with the GPIO pin number that is desired.
-// There are three options for `PLED_TYPE` currently:
-// 1 - `PLED_TYPE_NONE` - This will disable the Player LEDs
-// 2 - `PLED_TYPE_PWM` - This will enable the Player LEDs ( it is recommended to run through 3V3(OUT) with a resistor)
-// 3 - `PLED_TYPE_RGB` - This will enable the Player LEDs as addressible RGB LEDs (please not that this has not been implemented yet)
 
 #define PLED_TYPE PLED_TYPE_PWM
 #define PLED1_PIN 16
@@ -151,20 +98,8 @@
 #define I2C0_ENABLED 1
 #define I2C0_PIN_SDA 26
 #define I2C0_PIN_SCL 27
-#define DISPLAY_I2C_BLOCK i2c0
-
-// Reverse Button section
-#define REVERSE_LED_PIN -1
-#define REVERSE_UP_DEFAULT 1
-#define REVERSE_DOWN_DEFAULT 1
-#define REVERSE_LEFT_DEFAULT 1
-#define REVERSE_RIGHT_DEFAULT 1
 
 
-#define BUTTON_LAYOUT BUTTON_LAYOUT_STICKLESS
 #define BUTTON_LAYOUT_RIGHT BUTTON_LAYOUT_STICKLESSB
-#define SPLASH_MODE SPLASH_MODE_NONE
-#define SPLASH_CHOICE SPLASH_CHOICE_MAIN
-#define SPLASH_DURATION 7500 // Duration in milliseconds
 
 #endif

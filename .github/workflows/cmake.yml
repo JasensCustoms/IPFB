@@ -15,37 +15,66 @@ env:
 
 jobs:
   get-release-version:
-    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    outputs:
+      next_version: ${{ steps.get_next_version.outputs.next_version }}
+      GP2040_CE_TAG: ${{ steps.get_next_version.outputs.GP2040_CE_TAG }}
     steps:
-    - run: |  
+    - if: ${{ github.ref == 'refs/heads/main' }}
+      run: |  
         TAG=$(gh release view --repo '${{ env.GP2040_REPO }}' --json tagName --jq .tagName || echo)
         echo 'GP2040_CE_TAG='$TAG >> $GITHUB_ENV
+        echo 'CURRENT_TAG=' >> $GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
-    - run: |
+
+    - if: ${{ github.ref_type == 'tag' }}
+      run: |
+        echo 'CURRENT_TAG='$(echo ${{ github.ref_name }} | sed -E 's/^(v[0-9]+\.[0-9]+\.[0-9]+).*/\1/g') >> $GITHUB_ENV
+
+    - if: ${{ github.ref_type == 'tag' }}
+      run: |  
+        TAG=$(gh release view --repo '${{ env.GP2040_REPO }}@${{ env.CURRENT_TAG }}' --json tagName --jq .tagName || echo)
+        if [ $TAG == 'release not found' ] || [ $TAG == '' ]; then
+          >&2 echo "Couldn't find GP2040 release!"
+          exit 1
+        fi
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OWNER: ${{ github.repository_owner }}
+        REPO: ${{ github.event.repository.name }}
+
+    - if: ${{ env.GP2040_CE_TAG == 'release not found' || env.GP2040_CE_TAG == '' }}
+      run: |
+        >&2 echo "Couldn't find GP2040 release!" 
+        exit 1
+
+    - if: ${{ github.ref == 'refs/heads/main' }}
+      run: |
         TAG=$(gh release view --repo '${{ github.repository }}' --json tagName --jq .tagName || echo)
-        echo 'CURRENT_TAG='$TAG >> $GITHUB_ENV
+        echo 'LAST_TAG='$TAG >> $GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OWNER: ${{ github.repository_owner }}
         REPO: ${{ github.event.repository.name }}
-    - run: touch ${{github.workspace}}/release_version.txt
-    - if: ${{ env.GP2040_CE_TAG != 'release not found' && env.GP2040_CE_TAG != env.CURRENT_TAG }}
-      run: echo $GP2040_CE_TAG > ${{github.workspace}}/release_version.txt
-    - uses: actions/upload-artifact@v4.3.1
-      with:
-        name: Release Version
-        path: ${{github.workspace}}/release_version.txt
-        if-no-files-found: error
+
+    - name: get_next_version
+      run: |
+        echo 'GP2040_CE_TAG='${{ env.GP2040_CE_TAG }} >> $GITHUB_OUTPUT
+        if [ ${{ env.GP2040_CE_TAG }} != $LAST_TAG ]; then
+          echo 'NEXT_TAG='${{ env.GP2040_CE_TAG}} >> $GITHUB_OUTPUT
+        else
+          echo 'NEXT_TAG=' >> $GITHUB_OUTPUT
 
   build-web-interface:
     uses: ./.github/workflows/node.js.yml
 
   build-firmware:
-    needs: build-web-interface
+    needs:
+      - build-web-interface
+      - get-release-version
     # The CMake configure and build commands are platform-agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -55,8 +84,10 @@ jobs:
     #Global Setup
     - name: Checkout GP2040-CE
       uses: actions/checkout@v4.1.1
+      env:
+        GP2040_CE_TAG: ${{needs.get-release-version.outputs.GP2040_CE_TAG}}
       with:
-        repository: '${{ env.GP2040_REPO }}'
+        repository: '${{ env.GP2040_REPO }}@${{ env.GP2040_CE_TAG }}'
         fetch-depth: 0
         fetch-tags: true
 
@@ -112,7 +143,9 @@ jobs:
           name: Release Version
           path: ${{github.workspace}}/
 
-      - run: echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_ENV
+      - env:
+          RELEASE_VERSION: ${{needs.get-release-version.outputs.next_version}}
+        run: echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
 
       - name: Download Build Artifacts
         if: ${{ env.RELEASE_VERSION != '' }}
