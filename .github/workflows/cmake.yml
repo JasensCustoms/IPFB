@@ -98,8 +98,6 @@ jobs:
         path: configs/
         sparse-checkout: ${{ env.GP2040_BOARDCONFIG }}
 
-    - run: ls configs/${{ env.GP2040_BOARDCONFIG }}/
-    
     - name: Setup SDK pipeline
       uses: Fortinbra/RaspberryPiPicoBuild@v3
 
@@ -137,7 +135,7 @@ jobs:
       - build-firmware
     env:
       RELEASE_VERSION: ${{needs.get-tags.outputs.next_tag}}
-    if: ${{ github.ref == 'refs/heads/main' && env.RELEASE_VERSION != '' }}
+    if: ${{ github.ref == 'refs/heads/main' && needs.get-tags.outputs.next_tag != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Download Build Artifacts
