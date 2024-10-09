@@ -88,7 +88,8 @@ jobs:
     - name: Checkout GP2040-CE
       uses: actions/checkout@v4.1.1
       with:
-        repository: '${{ env.GP2040_REPO }}@${{ env.GP2040_CE_TAG }}'
+        repository: '${{ env.GP2040_REPO }}'
+        ref: '${{ env.GP2040_CE_TAG }}'
         fetch-depth: 0
         fetch-tags: true
 
