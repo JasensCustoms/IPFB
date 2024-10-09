@@ -80,13 +80,13 @@ jobs:
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
+    env:
+      GP2040_CE_TAG: ${{needs.get-release-version.outputs.GP2040_CE_TAG}}
 
     steps:
     #Global Setup
     - name: Checkout GP2040-CE
       uses: actions/checkout@v4.1.1
-      env:
-        GP2040_CE_TAG: ${{needs.get-release-version.outputs.GP2040_CE_TAG}}
       with:
         repository: '${{ env.GP2040_REPO }}@${{ env.GP2040_CE_TAG }}'
         fetch-depth: 0
